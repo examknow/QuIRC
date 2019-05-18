@@ -27,6 +27,12 @@ def on_message(bot, channel, sender, message):
     if "hi" in message.lower() or "hello" in message.lower():
         greeting_message = random.choice(greetings).format(sender)
         bot.send_message(channel, greeting_message)
+    for message_part in message.split():
+        if message_part.startswith("http://") or message_part.startswith("https://"):
+            html = requests.get(message_part).text
+            title_match = re.search("<title>(.*?)</title>", html)
+            if title_match:
+                bot.send_message(channel, "Title of the URL by {}: {}".format(sender, title_match.group(1)))
 
 bot.on_connect.append(on_connect)
 bot.on_welcome.append(on_welcome)
