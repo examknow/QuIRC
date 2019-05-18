@@ -24,7 +24,9 @@ def on_welcome(bot):
     print('Authed to NickServ')
     time.sleep(10)
 def on_message(bot, channel, sender, message):
-    print('message recieved')
+    if "hi" in message.lower() or "hello" in message.lower():
+        greeting_message = random.choice(greetings).format(sender)
+        bot.send_message(channel, greeting_message)
 
 bot.on_connect.append(on_connect)
 bot.on_welcome.append(on_welcome)
