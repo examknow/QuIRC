@@ -1,12 +1,11 @@
 from distutils.core import setup
 setup(
-    name = "JustIRC",
-    py_modules = ["JustIRC"],
-    version = "0.3.0",
-    description = "An event-driven IRC library",
-    author = "Gokberk Yaltirakli",
-    author_email = "webdosusb@gmail.com",
-    url = "https://github.com/gkbrk/JustIRC",
-    download_url = "https://github.com/gkbrk/JustIRC/tarball/master",
-    keywords = ["irc", "event"]
+    name = "QuIRC",
+    py_modules = ["QuIRC"],
+    version = "Dev0",
+    description = "Quick auto-logging IRC Bot",
+    author = "RhinosF1 and Dschultz75",
+    author_email = "quircbot@gmail.com"
+    download_url = "",
+    keywords = ["irc"]
 )
