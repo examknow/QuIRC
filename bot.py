@@ -25,7 +25,7 @@ def on_welcome(bot):
     time.sleep(10)
     bot.join_channel('##test1')
 def on_message(bot, channel, sender, message):
-    if "hi" in message.lower() or "hello" in message.lower():
+    if "hi " in message.lower() or "hello " in message.lower():
         greeting_message = random.choice(greetings).format(sender)
         bot.send_message(channel, greeting_message)
     for message_part in message.split():
@@ -57,7 +57,7 @@ def on_message(bot, channel, sender, message):
             picked = random.randint(0,int(numq))
             pq = quotes[picked]
             bot.send_message(channel, 'Todays quote is: ' + str(pq))
-            bot.send_message('ChanServ', 'topic '+ channel + ' topic ' + ' | Quote of the day: ' + pq)
+            bot.send_message('ChanServ', 'topic' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
 def on_pm(bot, sender, message):
     #do nothing
     print('No action taken - PM logged')
