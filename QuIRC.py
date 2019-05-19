@@ -1,5 +1,6 @@
 import socket
 import time
+import datetime
 
 def _parse_irc_packet(packet):
     irc_packet = _IRCPacket()
@@ -53,11 +54,10 @@ class IRCConnection:
         self.on_leave = []
 
     def run_once(self):
-        ##This function runs one iteration of the IRC client. This is called in a loop
-        ##by the run_loop function. It can be called separately, but most of the
-        ##time there is no need to do this.
-
-
+        ##This function runs one iteration of the IRC client. 
+        #This is called in a loop by the run_loop function. 
+        #It can be called separately, but most of the time there is no need to do this.
+        
         packet = _parse_irc_packet(next(self.lines)) #Get next line from generator
 
         for event_handler in list(self.on_packet_received):
@@ -67,9 +67,30 @@ class IRCConnection:
             if packet.arguments[0].startswith("#"):
                 for event_handler in list(self.on_public_message):
                     event_handler(self, packet.arguments[0], packet.prefix.split("!")[0], packet.arguments[1])
+                    origin =  str(packet.arguments[0]) #channel
+                    senduser = str(packet.prefix.split("!")[0]) #sender
+                    content = str(packet.arguments[1]) #message
+                    logfile = open('bot.log', 'a+')
+                    ts = time.time()
+                    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                    logline = '\n [' + origin + '] @ ' + st +' - ' + senduser + ' : ' + content
+                    logline = str(logline)
+                    logfile.write(logline)
+                    print(logline)
+                    logfile.close()
             else:
                 for event_handler in list(self.on_private_message):
                     event_handler(self, packet.prefix.split("!")[0], packet.arguments[1])
+                    senduser = str(packet.prefix.split("!")[0]) #sender
+                    content = str(packet.arguments[1]) #message
+                    logfile = open('bot.log', 'a+')
+                    ts = time.time()
+                    st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                    logline = '\n [Private Message] @ ' + st +' - ' + senduser + ' : ' + content
+                    logline = str(logline)
+                    logfile.write(logline)
+                    print(logline)
+                    logfile.close()
         elif packet.command == "PING":
             self.send_line("PONG :{}".format(packet.arguments[0]))
 
@@ -91,8 +112,8 @@ class IRCConnection:
                 event_handler(self, packet.arguments[0], packet.prefix.split("!")[0])
 
     def run_loop(self):
-        #Runs the main loop of the client. This function is usually called after you
-        #add all the callbacks and connect to the server.
+        #Runs the main loop of the client. 
+        #This function is usually called after you add all the callbacks and connect to the server.
 
 
         while True:
@@ -108,8 +129,8 @@ class IRCConnection:
                 yield line
 
     def connect(self, server, port=6667):
-        #Connects to a given IRC server. After the connection is established, it calls
-        #the on_connect event handler.
+        #Connects to a given IRC server. 
+        #After the connection is established, it calls the on_connect event handler.
 
 
         self.socket.connect((server, port))
@@ -118,56 +139,52 @@ class IRCConnection:
             event_handler(self)
 
     def send_line(self, line):
-        #Sends a line directly to the server. This is a low-level function that can be
-        #used to implement functionality that's not covered by this
-        #library. Almost all of the time, you should have no need to use this
-        #function.
+        #Sends a line directly to the server. 
+        #This is a low-level function that can be used to implement functionality that's not covered by this library. 
+        #Almost all of the time, you should have no need to use this function.
 
 
         self.socket.send("{}\r\n".format(line).encode("utf-8"))
 
     def send_message(self, to, message):
-        #Sends a message to a user or a channel. This is the main way of interaction
-        #as an IRC bot or client.
+        #Sends a message to a user or a channel.
 
 
         self.send_line("PRIVMSG {} :{}".format(to, message))
 
     def send_notice(self, to, message):
-        #Sends a notice message. Notice messages ususally have special formatting on
-        #clients.
+        #Sends a notice message. 
+        #Notice messages ususally have special formatting on clients.
 
 
         self.send_line("NOTICE {} :{}".format(to, message))
 
     def send_action_message(self, to, action):
-        #Sends an action message to a channel or user. Action messages have special
-        #formatting on clients and are usually sent like /me is happy
+        #Sends an action message to a channel or user. 
+        #Action messages have special formatting on clients and are usually sent like /me is happy
 
 
         self.send_message(to, "\x01ACTION {}\x01".format(action))
 
     def join_channel(self, channel_name):
-        #Joins a given channel. After the channel is joined, the on_join callback is
-        #called.
+        #Joins a given channel. 
+        #After the channel is joined, the on_join callback is called.
 
 
         self.send_line("JOIN {}".format(channel_name))
 
     def set_nick(self, nick):
-        #Sets or changes your link. This should be called before joining channels, but
-        #can be called at any time afterwards. If the requested nickname is not
-        #available, the library will keep adding an underscore until a suitable
-        #nick is found.
+        #Sets or changes your link. 
+        #This should be called before joining channels, but can be called at any time afterwards. 
+        #If the requested nickname is not available, the library will keep adding an underscore until a suitable nick is found.
 
 
         self.nick = nick
         self.send_line("NICK {}".format(nick))
 
     def send_user_packet(self, username):
-        #Sends a user packet. This should be sent after your nickname. It is
-        #displayed on clients when they view your details and look at "Real
-        #Name".
+        #Sends a user packet. This should be sent after your nickname. 
+        #It is displayed on clients when they view your details and look at "Real Name".
 
         
         self.send_line("USER {} 0 * :{}".format(username, username))

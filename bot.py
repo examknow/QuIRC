@@ -58,7 +58,12 @@ def on_message(bot, channel, sender, message):
             pq = quotes[picked]
             bot.send_message(channel, 'Todays quote is: ' + str(pq))
             bot.send_message('ChanServ', 'topic '+ channel + ' topic ' + ' | Quote of the day: ' + pq)
-
+def on_pm(bot, sender, message):
+    #do nothing
+    print('No action taken - PM logged')
+    
+    
+bot.on_private_message.append(on_pm)
 bot.on_connect.append(on_connect)
 bot.on_welcome.append(on_welcome)
 bot.on_public_message.append(on_message)
