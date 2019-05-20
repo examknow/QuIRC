@@ -1,6 +1,7 @@
 import socket
 import time
 import datetime
+botnick = ''
 
 def _parse_irc_packet(packet):
     irc_packet = _IRCPacket()
@@ -148,10 +149,17 @@ class IRCConnection:
 
     def send_message(self, to, message):
         #Sends a message to a user or a channel.
-
+        global botnick
 
         self.send_line("PRIVMSG {} :{}".format(to, message))
-
+        logfile = open('bot.log', 'a+')
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        logline = '\n [' + to + '] @ ' + st +' -' + botnick + ' : ' + message
+        logline = str(logline)
+        logfile.write(logline)
+        print(logline)
+        logfile.close()
     def send_notice(self, to, message):
         #Sends a notice message. 
         #Notice messages ususally have special formatting on clients.
@@ -177,10 +185,11 @@ class IRCConnection:
         #Sets or changes your link. 
         #This should be called before joining channels, but can be called at any time afterwards. 
         #If the requested nickname is not available, the library will keep adding an underscore until a suitable nick is found.
-
+        global botnick
 
         self.nick = nick
         self.send_line("NICK {}".format(nick))
+        botnick = nick
 
     def send_user_packet(self, username):
         #Sends a user packet. This should be sent after your nickname. 
