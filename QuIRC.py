@@ -65,38 +65,51 @@ class IRCConnection:
             event_handler(self, packet)
 
         if packet.command == "PRIVMSG":
+            print('Message recieved')
             if packet.arguments[0].startswith("#"):
+                print('Found channel message')
                 for event_handler in list(self.on_public_message):
                     event_handler(self, packet.arguments[0], packet.prefix.split("!")[0], packet.arguments[1])
                     origin =  str(packet.arguments[0]) #channel
                     senduser = str(packet.prefix.split("!")[0]) #sender
                     content = packet.arguments[1].encode("ascii", "replace")
                     content = str(content) #message
+                    print('Got message info')
                     logfile = open('bot.log', 'a+')
+                    print('opened logs')
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                    print('Got timestamp')
                     logline = '\n [' + origin + '] @ ' + st +' - ' + senduser + ' : ' + content
                     logline = str(logline)
                     logfile.write(logline)
+                    print('Logged message')
                     print(logline)
                     logfile.close()
+                    print('Closed logs file')
             else:
                 for event_handler in list(self.on_private_message):
+                    print('Found Private message')
                     event_handler(self, packet.prefix.split("!")[0], packet.arguments[1])
                     senduser = str(packet.prefix.split("!")[0]) #sender
                     content = packet.arguments[1].encode("ascii", "replace")
                     content = str(content) #message
+                    print('Got message info')
                     logfile = open('bot.log', 'a+')
+                    print('Opened logs')
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                    print('Got timestamp')
                     logline = '\n [Private Message] @ ' + st +' - ' + senduser + ' : ' + content
                     logline = str(logline)
                     logfile.write(logline)
+                    print('Logged message')
                     print(logline)
                     logfile.close()
+                    print('Closed logs file')
         elif packet.command == "PING":
             self.send_line("PONG :{}".format(packet.arguments[0]))
-
+            print('ping ponged server')
             for event_handler in list(self.on_ping):
                 event_handler(self)
         elif packet.command == "433" or packet.command == "437":
@@ -104,6 +117,7 @@ class IRCConnection:
             #Add underscore to the nick
 
             self.set_nick("{}_".format(self.nick))
+            print('added _ to mick to 433 - nick in use')
         elif packet.command == "001":
             for event_handler in list(self.on_welcome):
                 event_handler(self)
@@ -152,50 +166,93 @@ class IRCConnection:
     def send_message(self, to, message):
         #Sends a message to a user or a channel.
         global botnick
-
+        print('Sending message...')
         self.send_line("PRIVMSG {} :{}".format(to, message))
+        print('message sent... logging..')
         logfile = open('bot.log', 'a+')
+        print('Opened logs')
         ts = time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print('Got timestamp')
         logline = '\n [' + to + '] @ ' + st +' -' + botnick + ' : ' + message
         logline = str(logline)
         logfile.write(logline)
+        print('Logged message')
         print(logline)
         logfile.close()
+        print('Closed logs')
     def send_notice(self, to, message):
+        global botnick
         #Sends a notice message. 
         #Notice messages ususally have special formatting on clients.
 
 
         self.send_line("NOTICE {} :{}".format(to, message))
-
+        print('Sending message...')
+        print('message sent... logging..')
+        logfile = open('bot.log', 'a+')
+        print('Opened logs')
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print('Got timestamp')
+        logline = '\n [' + to + '] @ ' + st +' -' + botnick + ' : ' + message
+        logline = str(logline)
+        logfile.write(logline)
+        print('Logged message')
+        print(logline)
+        logfile.close()
+        print('Closed logs')
     def send_action_message(self, to, action):
         #Sends an action message to a channel or user. 
         #Action messages have special formatting on clients and are usually sent like /me is happy
 
 
         self.send_message(to, "\x01ACTION {}\x01".format(action))
-
+        
     def join_channel(self, channel_name):
         #Joins a given channel. 
         #After the channel is joined, the on_join callback is called.
 
 
         self.send_line("JOIN {}".format(channel_name))
-
+        print('Joined ' + channel_name)
     def set_nick(self, nick):
         #Sets or changes your link. 
         #This should be called before joining channels, but can be called at any time afterwards. 
         #If the requested nickname is not available, the library will keep adding an underscore until a suitable nick is found.
         global botnick
-
+        print('setting nick')
         self.nick = nick
         self.send_line("NICK {}".format(nick))
+        print('Nick: ' + nick)
         botnick = nick
+        print('Opened Logs')
+        
+        logs = open('bot.log', 'a+')
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print('Got timestamp')
+        logs.write('\n Nick was set to ' + nick + ' @ ' + st)
+        print('Logged nickchange')
+        logs.close()
+        print('Closed logs')
+        
 
     def send_user_packet(self, username):
         #Sends a user packet. This should be sent after your nickname. 
         #It is displayed on clients when they view your details and look at "Real Name".
-
-        
+        print('setting realname')
         self.send_line("USER {} 0 * :{}".format(username, username))
+        print('Realname: ' + username)
+        realname = username
+        print('Opened Logs')
+        
+        logs = open('bot.log', 'a+')
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        print('Got timestamp')
+        logs.write('\n Realname was set to ' + username + ' @ ' + st)
+        print('Logged realname change')
+        logs.close()
+        print('Closed logs')
+       
