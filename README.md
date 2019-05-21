@@ -9,5 +9,6 @@ QuIRC is
 * Written in pure Python. Uses sockets instead of heavy frameworks.
 * Has simple functions for most IRC functionality. You don't have to touch a
   line of socket code.
+* Includes a log bot, weather bot, and URL title bot
 
 [![Visit our IRC channel](https://kiwiirc.com/buttons/chat.freenode.net/#quirc.png)](https://kiwiirc.com/client/chat.freenode.net/?nick=quirc?##quirc) to talk to users and developers or email quircbot@gmail.com
