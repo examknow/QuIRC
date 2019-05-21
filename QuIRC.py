@@ -70,7 +70,8 @@ class IRCConnection:
                     event_handler(self, packet.arguments[0], packet.prefix.split("!")[0], packet.arguments[1])
                     origin =  str(packet.arguments[0]) #channel
                     senduser = str(packet.prefix.split("!")[0]) #sender
-                    content = str(packet.arguments[1]) #message
+                    content = packet.arguments[1].encode("ascii", "replace")
+                    content = str(content) #message
                     logfile = open('bot.log', 'a+')
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
@@ -83,7 +84,8 @@ class IRCConnection:
                 for event_handler in list(self.on_private_message):
                     event_handler(self, packet.prefix.split("!")[0], packet.arguments[1])
                     senduser = str(packet.prefix.split("!")[0]) #sender
-                    content = str(packet.arguments[1]) #message
+                    content = packet.arguments[1].encode("ascii", "replace")
+                    content = str(content) #message
                     logfile = open('bot.log', 'a+')
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
