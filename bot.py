@@ -19,7 +19,7 @@ greetingsbot = 1
 weatherbot = 0
 linkbot = 1
 quotebot = 1
-
+pingbot = 1
 def on_connect(bot):
     bot.set_nick(nick)
     bot.send_user_packet(nick)
@@ -83,8 +83,11 @@ def on_message(bot, channel, sender, message):
             bot.send_message('ChanServ', 'topic ' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
             print('Announed it')
 def on_pm(bot, sender, message):
-    #do nothing
-    print('No functions available - PM logged')
+    print('Got PM')
+    if message.lower() == 'ping' and pingbot == 1:
+        print('Got ping message over PM')
+        bot.send_message(sender, 'PONG')
+        print('PONGed user back')
     
     
 bot.on_private_message.append(on_pm)
