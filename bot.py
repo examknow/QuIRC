@@ -14,6 +14,11 @@ greetings = [
     "Hi there {}!",
     "Hey {}!"
 ]
+##FUNCTION FLAGS - SET TO 1 TO ENABLE
+greetingsbot = 1
+weatherbot = 0
+linkbot = 1
+quotebot = 1
 
 def on_connect(bot):
     bot.set_nick(nick)
@@ -26,14 +31,14 @@ def on_welcome(bot):
     bot.join_channel('##test1')
     print('Joined channels')
 def on_message(bot, channel, sender, message):
-    if "hi " in message.lower() or "hello " in message.lower():
+    if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
         print('got greeting message')
         greeting_message = random.choice(greetings).format(sender)
         print('picked greeting: ' + greeting_message)
         bot.send_message(channel, greeting_message)
         print('Sent greeting')
     for message_part in message.split():
-        if message_part.startswith("http://") or message_part.startswith("https://"):
+        if message_part.startswith("http://") and linkbot == 1 or message_part.startswith("https://") and linkbot == 1:
             print('Found link')
             html = requests.get(message_part).text
             title_match = re.search("<title>(.*?)</title>", html)
@@ -41,7 +46,7 @@ def on_message(bot, channel, sender, message):
             if title_match:
                 bot.send_message(channel, "Title of the URL by {}: {}".format(sender, title_match.group(1)))
                 print('Sent title')
-    if message.split()[0] == "!weather":
+    if message.split()[0] == "!weather" and weatherbot == 1:
         print('Seen weather ping')
         if len(message.split()) > 1:
             location = message.lower()
@@ -59,7 +64,7 @@ def on_message(bot, channel, sender, message):
         else:
             bot.send_message(channel, "Usage: !weather Istanbul")
     for message_part in message.split():
-        if message_part.startswith("!pickquote"):
+        if message_part.startswith("!pickquote") and quotebot == 1:
             print('Got !pickquote command')
             numq = message.lower()
             numq = numq[10:]
@@ -75,7 +80,7 @@ def on_message(bot, channel, sender, message):
             pq = quotes[picked]
             print('Which is: ' + pq)
             bot.send_message(channel, 'Todays quote is: ' + str(pq))
-            bot.send_message('ChanServ', 'topic' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
+            bot.send_message('ChanServ', 'topic ' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
             print('Announed it')
 def on_pm(bot, sender, message):
     #do nothing
