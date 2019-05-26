@@ -20,6 +20,7 @@ weatherbot = 0
 linkbot = 1
 quotebot = 1
 pingbot = 1
+buttbot = 0
 def on_connect(bot):
     bot.set_nick(nick)
     bot.send_user_packet(nick)
@@ -82,6 +83,30 @@ def on_message(bot, channel, sender, message):
             bot.send_message(channel, 'Todays quote is: ' + str(pq))
             bot.send_message('ChanServ', 'topic ' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
             print('Announed it')
+    if buttbot == 1:
+        message = message.lower()
+        message = message.split(' ')
+        newmess = ''
+        print(message)
+        wordsf = open('bbwords.csv', 'r')
+        words = wordsf.read()
+        words = words.split(',')
+        print(words)
+        go = random.randint(1,4)
+        print(go)
+        if any(x in words for x in message) and go == 1:
+            print('on path')
+            messlen = len(message)
+            replace = random.randint(1, messlen)
+            on = 0
+            while on < messlen:
+                if on == replace:
+                    newmess = newmess + ' butt'
+                else:
+                    newmess = newmess + ' ' + message[on]
+                on = on + 1
+            bot.send_message(channel, newmess)
+                    
 def on_pm(bot, sender, message):
     print('Got PM')
     if message.lower() == 'ping' and pingbot == 1:
