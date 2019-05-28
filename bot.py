@@ -7,6 +7,7 @@ import random
 topic = "General Chat - Logged at http://wm-bot.wmflabs.org/logs/%23%23RhinosF1/?C=M;O=D , Enjoy - if you don't, have a good one | Rules and Info - https://pastebin.com/C2brE9bh"
 nick = 'quirctest123'
 bot = QuIRC.IRCConnection()
+lastgreeter = ''
 greetings = [
     "Hello {}!",
     "Hi {}!",
@@ -33,11 +34,16 @@ def on_welcome(bot):
     print('Joined channels')
 def on_message(bot, channel, sender, message):
     if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
-        print('got greeting message')
-        greeting_message = random.choice(greetings).format(sender)
-        print('picked greeting: ' + greeting_message)
-        bot.send_message(channel, greeting_message)
-        print('Sent greeting')
+        global lastgreeter
+        if lastgreeter = sender:
+            print('Greetingsbot failed as sender was same as last greeter')
+        else:
+            print('got greeting message')
+            greeting_message = random.choice(greetings).format(sender)
+            print('picked greeting: ' + greeting_message)
+            bot.send_message(channel, greeting_message)
+            print('Sent greeting')
+        lastgreeter = sender
     for message_part in message.split():
         if message_part.startswith("http://") and linkbot == 1 or message_part.startswith("https://") and linkbot == 1:
             print('Found link')
