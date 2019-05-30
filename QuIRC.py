@@ -244,7 +244,8 @@ class IRCConnection:
         #Sends a user packet. This should be sent after your nickname. 
         #It is displayed on clients when they view your details and look at "Real Name".
         print('setting realname')
-        self.send_line("USER {} 0 * :{}".format(username, username))
+        ident = 'quirc'
+        self.send_line("USER {} 0 * :{}".format(ident, username))
         print('Realname: ' + username)
         realname = username
         print('Opened Logs')
