@@ -22,6 +22,28 @@ linkbot = 1
 quotebot = 1
 pingbot = 1
 buttbot = 0
+
+def getinfo():
+    infofile = ('settings.csv', 'r')
+    for line in file:
+        setting = infofile.read()
+        setting = setting.split(';')
+        if setting[0] == 'greetingsbot':
+            greetingsbot = setting[1]
+        if setting[0] == 'weatherbot':
+            weatherbot = setting[1]
+        if setting[0] == 'apikey':
+            apikey = setting[1]
+        if setting[0] == linkbot:
+            linkbot = setting[1]
+        if setting[0] == pingobt:
+            greetingsbot = setting[1]
+        if setting[0] == buttbot:
+            buttbot = setting[1]
+        if setting[0] == admins:
+            admins = setting[1]
+            admins = admins.split(,)
+       
 def on_connect(bot):
     bot.set_nick(nick)
     bot.send_user_packet(nick)
@@ -59,7 +81,6 @@ def on_message(bot, channel, sender, message):
             location = message.lower()
             location = location[9:]
             print('Detected location: ' + location)
-            apikey = 'none' #yourapikeykere
             weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
             if weather_data["cod"] == 200:
                 print('Got 200 response from API')
@@ -90,8 +111,8 @@ def on_message(bot, channel, sender, message):
             bot.send_message('ChanServ', 'topic ' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
             print('Announed it')
     if buttbot == 1:
-        message = message.lower()
-        message = message.split(' ')
+        message1 = message.lower()
+        message1 = message.split(' ')
         newmess = ''
         print(message)
         wordsf = open('bbwords.csv', 'r')
@@ -102,16 +123,32 @@ def on_message(bot, channel, sender, message):
         print(go)
         if any(x in words for x in message) and go == 1:
             print('on path')
-            messlen = len(message)
+            messlen = len(message1)
             replace = random.randint(1, messlen)
             on = 0
             while on < messlen:
                 if on == replace:
                     newmess = newmess + ' butt'
                 else:
-                    newmess = newmess + ' ' + message[on]
+                    newmess = newmess + ' ' + message1[on]
                 on = on + 1
             bot.send_message(channel, newmess)
+    if message.lower() == '!getinfo' and sender in admins:
+        bot.set_nick(nick + '-down')
+        bot.send_message(sender, 'Rebuilding')
+        greetingsbot = 0
+        weatherbot = 0
+        linkbot = 0
+        quotebot = 0
+        pingbot = 0
+        buttbot = 0
+        time.sleep(1)
+        getinfo()
+        time.sleep(1)
+        bot.send_message(sender, 'Rebuilt')
+        bot.set_nick(nick)
+        
+        
                     
 def on_pm(bot, sender, message):
     print('Got PM')
@@ -120,7 +157,7 @@ def on_pm(bot, sender, message):
         bot.send_message(sender, 'PONG')
         print('PONGed user back')
     
-    
+getinfo()
 bot.on_private_message.append(on_pm)
 bot.on_connect.append(on_connect)
 bot.on_welcome.append(on_welcome)
