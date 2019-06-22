@@ -24,25 +24,33 @@ pingbot = 1
 buttbot = 0
 
 def getinfo():
+    global linkbot
+    global greetingsbot
+    global weatherbot
+    global quotebot
+    global pingbot
+    global buttbot
+    global admins
+    global nick
+    global topic
     infofile = ('settings.csv', 'r')
-    for line in file:
-        setting = infofile.read()
-        setting = setting.split(';')
+    for line in infofile:
+        setting = line.split(';')
         if setting[0] == 'greetingsbot':
             greetingsbot = setting[1]
         if setting[0] == 'weatherbot':
             weatherbot = setting[1]
         if setting[0] == 'apikey':
             apikey = setting[1]
-        if setting[0] == linkbot:
+        if setting[0] == 'linkbot':
             linkbot = setting[1]
-        if setting[0] == pingobt:
+        if setting[0] == 'pingbot':
             greetingsbot = setting[1]
-        if setting[0] == buttbot:
+        if setting[0] == 'buttbot':
             buttbot = setting[1]
-        if setting[0] == admins:
+        if setting[0] == 'admins':
             admins = setting[1]
-            admins = admins.split(,)
+            admins = admins.split(',')
        
 def on_connect(bot):
     bot.set_nick(nick)
@@ -52,12 +60,21 @@ def on_welcome(bot):
     bot.send_message('NickServ', 'identify ')
     print('Authed to NickServ')
     time.sleep(10)
-    bot.join_channel('##test1')
+    bot.join_channel('##channel')
     print('Joined channels')
 def on_message(bot, channel, sender, message):
+    global linkbot
+    global greetingsbot
+    global weatherbot
+    global quotebot
+    global pingbot
+    global buttbot
+    global admins
+    global nick
+    global topic
     if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
         global lastgreeter
-        if lastgreeter = sender:
+        if lastgreeter == sender:
             print('Greetingsbot failed as sender was same as last greeter')
         else:
             print('got greeting message')
@@ -151,6 +168,15 @@ def on_message(bot, channel, sender, message):
         
                     
 def on_pm(bot, sender, message):
+    global linkbot
+    global greetingsbot
+    global weatherbot
+    global quotebot
+    global pingbot
+    global buttbot
+    global admins
+    global nick
+    global topic
     print('Got PM')
     if message.lower() == 'ping' and pingbot == 1:
         print('Got ping message over PM')
