@@ -98,10 +98,13 @@ def on_message(bot, channel, sender, message):
             location = message.lower()
             location = location[9:]
             print('Detected location: ' + location)
+            apikey = '' #yourapikeykere
             weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
             if weather_data["cod"] == 200:
                 print('Got 200 response from API')
-                bot.send_message(channel, "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"]))
+                message = "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"])
+                message = message.encode("ascii", "replace")
+                bot.send_message(channel, message)
                 print('Sent weather to channel')
             else:
                 bot.send_message(channel, sender + ': API Fault')
@@ -202,12 +205,15 @@ def on_pm(bot, sender, message):
         print('Seen weather ping')
         if len(message.split()) > 1:
             location = message.lower()
-            location = location[9:]
+            location = location[8:]
             print('Detected location: ' + location)
+            apikey = '' #yourapikeykere
             weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
             if weather_data["cod"] == 200:
                 print('Got 200 response from API')
-                bot.send_message(sender, "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"]))
+                message = "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"])
+                message = message.encode("ascii", "replace")
+                bot.send_message(sender, message)
                 print('Sent weather to channel')
             else:
                 bot.send_message(sender, sender + ': API Fault')
