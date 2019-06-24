@@ -9,3 +9,4 @@ Please note that only weather bot is disabled by default as you need to get an a
 
 ## 3. How to change config
 Follow set up instructions again and restart the bot - I have a better system planned
+
