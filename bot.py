@@ -90,7 +90,14 @@ def on_message(bot, channel, sender, message):
             title_match = re.search("<title>(.*?)</title>", html)
             print('Finding a title')
             if title_match:
-                bot.send_message(channel, "Title of the URL by {}: {}".format(sender, title_match.group(1)))
+                print(title_match.group(1))
+                title = title_match.group(1)
+                title = title.encode("ascii", "replace")
+                print(title)
+                message = "Title of the URL by {}: {}".format(sender, title)
+                message = message.encode("ascii", "replace")
+                print(message)
+                bot.send_message(channel, message)
                 print('Sent title')
     if message.split()[0] == "!weather" and weatherbot == 1:
         print('Seen weather ping')
@@ -199,7 +206,14 @@ def on_pm(bot, sender, message):
             title_match = re.search("<title>(.*?)</title>", html)
             print('Finding a title')
             if title_match:
-                bot.send_message(sender, "Title of the URL by {}: {}".format(sender, title_match.group(1)))
+                print(title_match.group(1))
+                title = title_match.group(1)
+                title = title.encode("ascii", "replace")
+                print(title)
+                message = "Title of the URL by {}: {}".format(sender, title)
+                message = message.encode("ascii", "replace")
+                print(message)
+                bot.send_message(channel, message)
                 print('Sent title')
     if message.split()[0] == "weather" and weatherbot == 1:
         print('Seen weather ping')
