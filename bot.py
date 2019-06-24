@@ -182,6 +182,75 @@ def on_pm(bot, sender, message):
         print('Got ping message over PM')
         bot.send_message(sender, 'PONG')
         print('PONGed user back')
+    if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
+        global lastgreeter
+        print('got greeting message')
+        greeting_message = random.choice(greetings).format(sender)
+        print('picked greeting: ' + greeting_message)
+        bot.send_message(sender, greeting_message)
+        print('Sent greeting')
+    for message_part in message.split():
+        if message_part.startswith("http://") and linkbot == 1 or message_part.startswith("https://") and linkbot == 1:
+            print('Found link')
+            html = requests.get(message_part).text
+            title_match = re.search("<title>(.*?)</title>", html)
+            print('Finding a title')
+            if title_match:
+                bot.send_message(sender, "Title of the URL by {}: {}".format(sender, title_match.group(1)))
+                print('Sent title')
+    if message.split()[0] == "weather" and weatherbot == 1:
+        print('Seen weather ping')
+        if len(message.split()) > 1:
+            location = message.lower()
+            location = location[9:]
+            print('Detected location: ' + location)
+            weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
+            if weather_data["cod"] == 200:
+                print('Got 200 response from API')
+                bot.send_message(sender, "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"]))
+                print('Sent weather to channel')
+            else:
+                bot.send_message(sender, sender + ': API Fault')
+                print('API fault on weather')
+        else:
+            bot.send_message(sender, "Usage: weather Istanbul")
+    if buttbot == 1:
+        message1 = message.lower()
+        message1 = message.split(' ')
+        newmess = ''
+        print(message)
+        wordsf = open('bbwords.csv', 'r')
+        words = wordsf.read()
+        words = words.split(',')
+        print(words)
+        go = random.randint(1,4)
+        print(go)
+        if any(x in words for x in message) and go == 1:
+            print('on path')
+            messlen = len(message1)
+            replace = random.randint(1, messlen)
+            on = 0
+            while on < messlen:
+                if on == replace:
+                    newmess = newmess + ' butt'
+                else:
+                    newmess = newmess + ' ' + message1[on]
+                on = on + 1
+            bot.send_message(sender, newmess)
+    if message.lower() == 'getinfo' and sender in admins:
+        bot.set_nick(nick + '-down')
+        bot.send_message(sender, 'Rebuilding')
+        greetingsbot = 0
+        weatherbot = 0
+        linkbot = 0
+        quotebot = 0
+        pingbot = 0
+        buttbot = 0
+        time.sleep(1)
+        getinfo()
+        time.sleep(1)
+        bot.send_message(sender, 'Rebuilt')
+        bot.set_nick(nick)
     
 getinfo()
 bot.on_private_message.append(on_pm)
