@@ -178,10 +178,10 @@ def on_message(bot, channel, sender, message):
         bot.set_nick(nick)
     if message.lower().startswith('!wmca') and cashortbot == 1:
         user = message.split[:4]
-        bot.send_message(channel, sender + ' https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
+        bot.send_message(channel, sender + ': https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
     if message.lower().startswith('!mhca') and cashortbot == 1:
         user = message.split[:4]
-        bot.send_message(channel, sender + ' https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
+        bot.send_message(channel, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
         
         
                     
@@ -223,7 +223,7 @@ def on_pm(bot, sender, message):
                 message = "Title of the URL by {}: {}".format(sender, title)
                 message = message.encode("ascii", "replace")
                 print(message)
-                bot.send_message(channel, message)
+                bot.send_message(sender, message)
                 print('Sent title')
     if message.split()[0] == "weather" and weatherbot == 1:
         print('Seen weather ping')
@@ -282,10 +282,10 @@ def on_pm(bot, sender, message):
         bot.set_nick(nick)
     if message.lower().startswith('wmca') and cashortbot == 1:
         user = message.split[:4]
-        bot.send_message(channel, sender + ' https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
+        bot.send_message(sender, sender + ': https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
     if message.lower().startswith('mhca') and cashortbot == 1:
         user = message.split[:4]
-        bot.send_message(channel, sender + ' https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
+        bot.send_message(sender, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
     
 getinfo()
 bot.on_private_message.append(on_pm)
