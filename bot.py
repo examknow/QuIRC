@@ -15,6 +15,7 @@ greetings = [
     "Hi there {}!",
     "Hey {}!"
 ]
+owapikey = '' #place an api key for open weather map here
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
@@ -22,7 +23,7 @@ linkbot = 1
 quotebot = 1
 pingbot = 1
 buttbot = 0
-cashort = 1
+cashortbot = 1
 
 def getinfo():
     global linkbot
@@ -73,6 +74,7 @@ def on_message(bot, channel, sender, message):
     global admins
     global nick
     global topic
+    global owapikey
     if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
         global lastgreeter
         if lastgreeter == sender:
@@ -106,8 +108,7 @@ def on_message(bot, channel, sender, message):
             location = message.lower()
             location = location[9:]
             print('Detected location: ' + location)
-            apikey = '' #yourapikeykere
-            weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
+            weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+owapikey+ "&units=metric").json()
             if weather_data["cod"] == 200:
                 print('Got 200 response from API')
                 message = "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"])
@@ -175,10 +176,10 @@ def on_message(bot, channel, sender, message):
         time.sleep(1)
         bot.send_message(sender, 'Rebuilt')
         bot.set_nick(nick)
-    if message.lower().startswith('!wmca') and cashort == 1:
+    if message.lower().startswith('!wmca') and cashortbot == 1:
         user = message.split[:4]
         bot.send_message(channel, sender + ' https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
-    if message.lower().startswith('!mhca') and cashort == 1:
+    if message.lower().startswith('!mhca') and cashortbot == 1:
         user = message.split[:4]
         bot.send_message(channel, sender + ' https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
         
@@ -195,6 +196,7 @@ def on_pm(bot, sender, message):
     global nick
     global topic
     global cashort
+    global owapikey
     print('Got PM')
     if message.lower() == 'ping' and pingbot == 1:
         print('Got ping message over PM')
@@ -229,8 +231,7 @@ def on_pm(bot, sender, message):
             location = message.lower()
             location = location[8:]
             print('Detected location: ' + location)
-            apikey = '' #yourapikeykere
-            weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+apikey+ "&units=metric").json()
+            weather_data = requests.get("http://api.openweathermap.org/data/2.5/weather?q="+location+"&APPID="+owapikey+ "&units=metric").json()
             if weather_data["cod"] == 200:
                 print('Got 200 response from API')
                 message = "The weather in {} is {} and {} degrees.".format(weather_data["name"], weather_data["weather"][0]["description"], weather_data["main"]["temp"])
@@ -279,10 +280,10 @@ def on_pm(bot, sender, message):
         time.sleep(1)
         bot.send_message(sender, 'Rebuilt')
         bot.set_nick(nick)
-    if message.lower().startswith('wmca') and cashort == 1:
+    if message.lower().startswith('wmca') and cashortbot == 1:
         user = message.split[:4]
         bot.send_message(channel, sender + ' https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
-    if message.lower().startswith('mhca') and cashort == 1:
+    if message.lower().startswith('mhca') and cashortbot == 1:
         user = message.split[:4]
         bot.send_message(channel, sender + ' https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
     
