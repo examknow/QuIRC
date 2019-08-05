@@ -25,6 +25,7 @@ quotebot = 1
 pingbot = 1
 buttbot = 0
 cashortbot = 1
+nspassword = ''
 
 def getinfo():
     global topic
@@ -36,33 +37,48 @@ def getinfo():
     global linkbot
     global pingbot
     global buttbot
-    global cashort
-    global admins 
+    global cashortbot
+    global admins
+    global owapikey
+    global nspassword
     infofile = ('settings.csv', 'r')
     for line in infofile:
         setting = line.split(';')
+        if setting[0] == 'topic':
+            topic = setting[1]
+        if setting[0] == 'nick':
+            nick = setting[1]
+        if setting[0] == 'greetings':
+            greetings = settings[1].split(',')
         if setting[0] == 'greetingsbot':
             greetingsbot = setting[1]
         if setting[0] == 'weatherbot':
             weatherbot = setting[1]
-        if setting[0] == 'apikey':
-            apikey = setting[1]
+        if setting[0] == 'owapikey':
+            owapikey = setting[1]
+        if setting[0] == 'quotebot':
+            quotebot = setting[1]
         if setting[0] == 'linkbot':
             linkbot = setting[1]
         if setting[0] == 'pingbot':
             greetingsbot = setting[1]
         if setting[0] == 'buttbot':
             buttbot = setting[1]
+        if setting[0] == 'cashortbot':
+            cashortbot = setting[1]
         if setting[0] == 'admins':
             admins = setting[1]
             admins = admins.split(',')
+        if setting[0] == 'nspassword':
+            nspassword = setting[1]
        
 def on_connect(bot):
     bot.set_nick(nick)
     bot.send_user_packet(nick)
 
 def on_welcome(bot):
-    bot.send_message('NickServ', 'identify ')
+    global nspassword
+    bot.send_message('NickServ', 'identify ' + nspassword)
     print('Authed to NickServ')
     time.sleep(10)
     bot.join_channel('##channel')
@@ -78,7 +94,7 @@ def on_message(bot, channel, sender, message):
     global linkbot
     global pingbot
     global buttbot
-    global cashort
+    global cashortbot
     global admins 
     global owapikey
     if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
@@ -171,12 +187,20 @@ def on_message(bot, channel, sender, message):
     if message.lower() == '!getinfo' and sender in admins:
         bot.set_nick(nick + '-down')
         bot.send_message(sender, 'Rebuilding')
+        topic = ''
+        nick = ''
+        lastgreeter = ''
+        greetings = ''
+        owapikey = ''
+        admins = ''
         greetingsbot = 0
         weatherbot = 0
         linkbot = 0
         quotebot = 0
         pingbot = 0
         buttbot = 0
+        cashortbot = 0
+        nspassword = ''
         time.sleep(1)
         getinfo()
         time.sleep(1)
@@ -202,7 +226,7 @@ def on_pm(bot, sender, message):
     global linkbot
     global pingbot
     global buttbot
-    global cashort
+    global cashortbot
     global admins 
     global owapikey
     print('Got PM')
@@ -277,12 +301,20 @@ def on_pm(bot, sender, message):
     if message.lower() == 'getinfo' and sender in admins:
         bot.set_nick(nick + '-down')
         bot.send_message(sender, 'Rebuilding')
+        topic = ''
+        nick = ''
+        lastgreeter = ''
+        greetings = ''
+        owapikey = ''
+        admins = ''
         greetingsbot = 0
         weatherbot = 0
         linkbot = 0
         quotebot = 0
         pingbot = 0
         buttbot = 0
+        cashortbot = 0
+        nspassword = ''
         time.sleep(1)
         getinfo()
         time.sleep(1)
