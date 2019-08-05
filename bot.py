@@ -4,7 +4,7 @@ import requests
 import re
 import time
 import random
-topic = "General Chat - Logged at http://wm-bot.wmflabs.org/logs/%23%23RhinosF1/?C=M;O=D , Enjoy - if you don't, have a good one | Rules and Info - https://pastebin.com/C2brE9bh"
+topic = '' #channel topic for use in channels where quotebot runs
 nick = 'quirctest123'
 bot = QuIRC.IRCConnection()
 lastgreeter = ''
@@ -16,6 +16,7 @@ greetings = [
     "Hey {}!"
 ]
 owapikey = '' #place an api key for open weather map here
+admins = ['freenode-staff', 'freenode-staff']
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
@@ -26,15 +27,17 @@ buttbot = 0
 cashortbot = 1
 
 def getinfo():
-    global linkbot
+    global topic
+    global nick
+    global greetings
     global greetingsbot
     global weatherbot
     global quotebot
+    global linkbot
     global pingbot
     global buttbot
-    global admins
-    global nick
-    global topic
+    global cashort
+    global admins 
     infofile = ('settings.csv', 'r')
     for line in infofile:
         setting = line.split(';')
@@ -65,15 +68,18 @@ def on_welcome(bot):
     bot.join_channel('##channel')
     print('Joined channels')
 def on_message(bot, channel, sender, message):
-    global linkbot
+    global topic
+    global nick
+    global lastgreeter
+    global greetings
     global greetingsbot
     global weatherbot
     global quotebot
+    global linkbot
     global pingbot
     global buttbot
-    global admins
-    global nick
-    global topic
+    global cashort
+    global admins 
     global owapikey
     if "hi " in message.lower() and greetingsbot == 1 or "hello " in message.lower() and greetingsbot == 1:
         global lastgreeter
@@ -186,16 +192,18 @@ def on_message(bot, channel, sender, message):
         
                     
 def on_pm(bot, sender, message):
-    global linkbot
+    global topic
+    global nick
+    global lastgreeter
+    global greetings
     global greetingsbot
     global weatherbot
     global quotebot
+    global linkbot
     global pingbot
     global buttbot
-    global admins
-    global nick
-    global topic
     global cashort
+    global admins 
     global owapikey
     print('Got PM')
     if message.lower() == 'ping' and pingbot == 1:
