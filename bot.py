@@ -53,21 +53,21 @@ def getinfo():
         if setting[0] == 'greetings':
             greetings = setting[1].split(',')
         if setting[0] == 'greetingsbot':
-            greetingsbot = setting[1]
+            greetingsbot = int(setting[1])
         if setting[0] == 'weatherbot':
-            weatherbot = setting[1]
+            weatherbot = int(setting[1])
         if setting[0] == 'owapikey':
             owapikey = setting[1]
         if setting[0] == 'quotebot':
-            quotebot = setting[1]
+            quotebot = int(setting[1])
         if setting[0] == 'linkbot':
             linkbot = setting[1]
         if setting[0] == 'pingbot':
-            greetingsbot = setting[1]
+            greetingsbot = int(setting[1])
         if setting[0] == 'buttbot':
             buttbot = setting[1]
         if setting[0] == 'cashortbot':
-            cashortbot = setting[1]
+            cashortbot = int(setting[1])
         if setting[0] == 'admins':
             admins = setting[1]
             admins = admins.split(',')
