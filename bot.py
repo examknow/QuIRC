@@ -212,11 +212,11 @@ def on_message(bot, channel, sender, message):
         bot.set_nick(nick)
     if message.lower().startswith('!wmca') and cashortbot == 1:
         user = message.split(' ')
-        user = user[2]
+        user = user[1]
         bot.send_message(channel, sender + ': https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
     if message.lower().startswith('!mhca') and cashortbot == 1:
         user = message.split(' ')
-        user = user[2]
+        user = user[1]
         bot.send_message(channel, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
         
         
@@ -328,11 +328,11 @@ def on_pm(bot, sender, message):
         bot.set_nick(nick)
     if message.lower().startswith('wmca') and cashortbot == 1:
         user = message.split(' ')
-        user = user[2]
+        user = user[1]
         bot.send_message(sender, sender + ': https://meta.wikimedia.org/wiki/Special:CentralAuth/' + user)
     if message.lower().startswith('mhca') and cashortbot == 1:
         user = message.split(' ')
-        user = user[2]
+        user = user[1]
         bot.send_message(sender, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
     
 getinfo()
