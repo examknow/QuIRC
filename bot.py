@@ -63,7 +63,7 @@ def getinfo():
         if setting[0] == 'linkbot':
             linkbot = setting[1]
         if setting[0] == 'pingbot':
-            greetingsbot = int(setting[1])
+            pingbot = int(setting[1])
         if setting[0] == 'buttbot':
             buttbot = setting[1]
         if setting[0] == 'cashortbot':
