@@ -17,6 +17,8 @@ greetings = [
 ]
 owapikey = '' #place an api key for open weather map here
 admins = ['freenode-staff', 'freenode-staff']
+username = 'quirc'
+realname = 'realname'
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
@@ -73,13 +75,10 @@ def getinfo():
             admins = admins.split(',')
         if setting[0] == 'nspassword':
             nspassword = setting[1]
-        if setting[0] == 'username':
-            username = username[1]
-       if setting[0] == 'realname':
-            realname = realname[1]
+       
 def on_connect(bot):
     bot.set_nick(nick)
-    bot.send_user_packet(username, realname)
+    bot.send_user_packet(nick)
 
 def on_welcome(bot):
     global nspassword
@@ -147,13 +146,16 @@ def on_message(bot, channel, sender, message):
                 print('API fault on !weather')
         else:
             bot.send_message(channel, "Usage: !weather Istanbul")
-    if message.lower() == '!pickquote' and quotebot == 1:
+    for message_part in message.split():
+        if message_part.startswith("!pickquote") and quotebot == 1:
             print('Got !pickquote command')
+            numq = message.lower()
+            numq = numq[10:]
+            print('Picking from ' + str(numq))
             quotelist = open('quotes.csv', 'r')
             print('Getting quotes')
             quotes = quotelist.read()
             quotes = quotes.split(',')
-            numq = len(quotes)
             print('Read quotes')
             numq = int(numq)-1
             picked = random.randint(0,int(numq))
@@ -332,21 +334,6 @@ def on_pm(bot, sender, message):
         user = message.split(' ')
         user = user[2]
         bot.send_message(sender, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
-    if message.lower() == 'pickquote' and quotebot == 1:
-            print('Got !pickquote command')
-            quotelist = open('quotes.csv', 'r')
-            print('Getting quotes')
-            quotes = quotelist.read()
-            quotes = quotes.split(',')
-            numq = len(quotes)
-            print('Read quotes')
-            numq = int(numq)-1
-            picked = random.randint(0,int(numq))
-            print('Picked ' + str(picked))
-            pq = quotes[picked]
-            print('Which is: ' + pq)
-            bot.send_message(sender, 'Todays quote is: ' + str(pq))
-            print('Announed it')
     
 getinfo()
 bot.on_private_message.append(on_pm)
