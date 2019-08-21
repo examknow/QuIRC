@@ -4,7 +4,7 @@ setup(
     py_modules = ["QuIRC"],
     version = "BetaV1",
     description = "Quick auto-logging IRC Bot",
-    author = "RhinosF1 and Dschultz75",
+    author = "RhinosF1",
     author_email = "quircbot@gmail.com"
     download_url = "",
     keywords = ["irc"]
