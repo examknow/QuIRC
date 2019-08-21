@@ -294,10 +294,10 @@ class IRCConnection:
         self.nick = nick
         self.send_line("NICK {}".format(nick))
 
-    def send_user_packet(self, username, realname):
+    def send_user_packet(self, username):
         #Sends a user packet. This should be sent after your nickname. It is
         #displayed on clients when they view your details and look at "Real
         #Name".
 
         
-        self.send_line("USER {} 0 * :{}".format(username, realname))
+        self.send_line("USER {} 0 * :{}".format(username, username))
