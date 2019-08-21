@@ -147,8 +147,7 @@ def on_message(bot, channel, sender, message):
                 print('API fault on !weather')
         else:
             bot.send_message(channel, "Usage: !weather Istanbul")
-    for message_part in message.split():
-        if message.lower() == '!pickquote' and quotebot == 1:
+    if message.lower() == '!pickquote' and quotebot == 1:
             print('Got !pickquote command')
             quotelist = open('quotes.csv', 'r')
             print('Getting quotes')
@@ -333,6 +332,21 @@ def on_pm(bot, sender, message):
         user = message.split(' ')
         user = user[2]
         bot.send_message(sender, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
+    if message.lower() == 'pickquote' and quotebot == 1:
+            print('Got !pickquote command')
+            quotelist = open('quotes.csv', 'r')
+            print('Getting quotes')
+            quotes = quotelist.read()
+            quotes = quotes.split(',')
+            numq = len(quotes)
+            print('Read quotes')
+            numq = int(numq)-1
+            picked = random.randint(0,int(numq))
+            print('Picked ' + str(picked))
+            pq = quotes[picked]
+            print('Which is: ' + pq)
+            bot.send_message(sender, 'Todays quote is: ' + str(pq))
+            print('Announed it')
     
 getinfo()
 bot.on_private_message.append(on_pm)
