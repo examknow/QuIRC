@@ -73,10 +73,13 @@ def getinfo():
             admins = admins.split(',')
         if setting[0] == 'nspassword':
             nspassword = setting[1]
-       
+        if setting[0] == 'username':
+            username = username[1]
+       if setting[0] == 'realname':
+            realname = realname[1]
 def on_connect(bot):
     bot.set_nick(nick)
-    bot.send_user_packet(nick)
+    bot.send_user_packet(username, realname)
 
 def on_welcome(bot):
     global nspassword
