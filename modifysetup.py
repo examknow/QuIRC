@@ -69,37 +69,37 @@ while run = 1:
     print('10.buttbot')
     print('11.cashortbot')
     print('12.admins')
-    settoupdate = raw_input('Which setting would you like to update?')
+    settoupdate = input('Which setting would you like to update?')
     if settoupdate = 1:
-        nick = raw_input('What is your bot nick? ')
+        nick = input('What is your bot nick? ')
     if settoupdate = 2:
-        nspassword = raw_input('What is the bot\'s NickServ Password? ')
+        nspassword = input('What is the bot\'s NickServ Password? ')
     if settoupdate = 3:
-        topic = raw_input('What is the topic in the channel the bot runs in? ')
+        topic = input('What is the topic in the channel the bot runs in? ')
     if settoupdate = 4:
         print('For each gretting please add a {} where the nick of the sender should go')
         print('After each greeting, place a comma to seperate them')
-        greetings = raw_input('What greetings should be used? ')
+        greetings = input('What greetings should be used? ')
     if settoupdate = 5:
-        greetingsbot = raw_input('Should the greetingsbot module be enabled?' )
+        greetingsbot = input('Should the greetingsbot module be enabled?' )
     if settoupdate = 6:
-        weatherbot = raw_input('Should the weatherbot module be enabled? ')
+        weatherbot = input('Should the weatherbot module be enabled? ')
     if settoupdate = 7:
-        owapikey = raw_input('What is your open weather map api key? ')
+        owapikey = input('What is your open weather map api key? ')
     if settoupdate = 8:
-        quotebot = raw_input('Should the quotebot module be enabled? ')
+        quotebot = input('Should the quotebot module be enabled? ')
         if quotebot.isnum() = True:
             if quotebot == 1:
                 print('Please gets your quotes ready, you should seperate quotes with a comma and place them in quoutes.csv ')
     if settoupdate = 9:
-        pingbot = raw_input('Should the pingbot module be enabled? (PM ONLY) ')
+        pingbot = input('Should the pingbot module be enabled? (PM ONLY) ')
     if settoupdate = 10:
         buttbot = input ('Should the buttbot module be enabled? ')
     if settoupdate = 11:
-        cashortbot = raw_input('Should the central auth short links bot module be enabled? ')
+        cashortbot = input('Should the central auth short links bot module be enabled? ')
     if settoupdate = 12:
-        admins = raw_input('Who are the bots admins (they get access to functions which either require them to be present at the computer running the bot or that have the power to bring the botdown)? -- seperate with a comma ')
-    another = raw_input('Would you like to update anything else? y/n ').lower()
+        admins = input('Who are the bots admins (they get access to functions which either require them to be present at the computer running the bot or that have the power to bring the botdown)? -- seperate with a comma ')
+    another = input('Would you like to update anything else? y/n ').lower()
     if another = 'n':
         run = 0
 print('Your settings file will now be updated')
