@@ -5,7 +5,7 @@ import re
 import time
 import random
 topic = '' #channel topic for use in channels where quotebot runs
-nick = 'quirctest123'
+nick = 'Quirctest'
 bot = QuIRC.IRCConnection()
 lastgreeter = ''
 greetings = [
@@ -16,11 +16,11 @@ greetings = [
     "Hey {}!"
 ]
 owapikey = '' #place an api key for open weather map here
-admins = ['freenode-staff', 'freenode-staff']
+admins = ['Sario']
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
-linkbot = 1
+linkbot = 0
 quotebot = 1
 pingbot = 1
 buttbot = 0
@@ -83,7 +83,7 @@ def on_welcome(bot):
     bot.send_message('NickServ', 'identify ' + nspassword)
     print('Authed to NickServ')
     time.sleep(10)
-    bot.join_channel('#channel')
+    bot.join_channel('#quirc-testing')
     print('Joined channels')
 def on_message(bot, channel, sender, message):
     global topic

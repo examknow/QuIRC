@@ -1,12 +1,12 @@
-nick;quirctest123;
-nspassword;password;
-topic;channeltopics;
-greetings;hello {}!,Hi {}!,Hello there {}!, Hi there {}!,Hey {};
+nick;quirctest,
+nspassword;;
+topic;Testing zone;
+greetings;Hello {}, Hi {};
 greetingsbot;1;
 weatherbot;0;
-owapikey;000;
+owapikey;;
 quotebot;1;
 pingbot;1;
-buttbot;1;
+buttbot;0;
 cashortbot;1;
-admins;freenode-staff,RhinosF1;
+admins;Sario,quirc;
