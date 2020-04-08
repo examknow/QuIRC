@@ -75,7 +75,7 @@ def getinfo():
             admins = admins.split(',')
         if setting[0] == 'nspassword':
             nspassword = setting[1]
-       
+
 def on_connect(bot):
     bot.set_nick(nick)
     bot.send_user_packet(nick)
@@ -218,9 +218,9 @@ def on_message(bot, channel, sender, message):
         user = message.split(' ')
         user = user[1]
         bot.send_message(channel, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
-        
-        
-                    
+
+
+
 def on_pm(bot, sender, message):
     global topic
     global nick
@@ -334,7 +334,7 @@ def on_pm(bot, sender, message):
         user = message.split(' ')
         user = user[1]
         bot.send_message(sender, sender + ': https://meta.miraheze.org/wiki/Special:CentralAuth/' + user)
-    
+
 getinfo()
 bot.on_private_message.append(on_pm)
 bot.on_connect.append(on_connect)
