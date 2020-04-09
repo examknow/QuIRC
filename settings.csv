@@ -1,7 +1,9 @@
-nick;quirctest,
-nspassword;;
-topic;Testing zone;
-greetings;Hello {}, Hi {};
+nick;quirctest123;
+username;quirc
+realname;realname
+nspassword;password;
+topic;channeltopics;
+greetings;hello {}!,Hi {}!,Hello there {}!, Hi there {}!,Hey {};
 greetingsbot;1;
 weatherbot;0;
 owapikey;;

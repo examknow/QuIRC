@@ -16,7 +16,13 @@ greetings = [
     "Hey {}!"
 ]
 owapikey = '' #place an api key for open weather map here
+<<<<<<< HEAD
 admins = ['Sario']
+=======
+admins = ['freenode-staff', 'freenode-staff']
+username = 'quirc'
+realname = 'realname'
+>>>>>>> version-beta-1.1
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
