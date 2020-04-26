@@ -5,7 +5,7 @@ import re
 import time
 import random
 topic = '' #channel topic for use in channels where quotebot runs
-nick = 'Quirctest'
+nick = 'QuIRCbot'
 bot = QuIRC.IRCConnection()
 lastgreeter = ''
 greetings = [
@@ -16,17 +16,13 @@ greetings = [
     "Hey {}!"
 ]
 owapikey = '' #place an api key for open weather map here
-<<<<<<< HEAD
-admins = ['Sario']
-=======
-admins = ['freenode-staff', 'freenode-staff']
+admins = ['Sario,sariomobile']
 username = 'quirc'
 realname = 'realname'
->>>>>>> version-beta-1.1
 ##FUNCTION FLAGS - SET TO 1 TO ENABLE
 greetingsbot = 1
 weatherbot = 0
-linkbot = 0
+linkbot = 1
 quotebot = 1
 pingbot = 1
 buttbot = 0
@@ -117,7 +113,7 @@ def on_message(bot, channel, sender, message):
             print('Sent greeting')
         lastgreeter = sender
     for message_part in message.split():
-        if message_part.startswith("http://") and linkbot == 1 or message_part.startswith("https://") and linkbot == 1:
+        if "http://" in message.lower() and linkbot == 1 or "https://" in message.lower() and linkbot == 1:
             print('Found link')
             html = requests.get(message_part).text
             title_match = re.search("<title>(.*?)</title>", html)
@@ -250,7 +246,7 @@ def on_pm(bot, sender, message):
         bot.send_message(sender, greeting_message)
         print('Sent greeting')
     for message_part in message.split():
-        if message_part.startswith("http://") and linkbot == 1 or message_part.startswith("https://") and linkbot == 1:
+        if "http://" in message.lower() and linkbot == 1 or "https://" in message.lower() and linkbot == 1:
             print('Found link')
             html = requests.get(message_part).text
             title_match = re.search("<title>(.*?)</title>", html)
