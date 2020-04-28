@@ -161,8 +161,8 @@ def on_message(bot, channel, sender, message):
             pq = quotes[picked]
             print('Which is: ' + pq)
             bot.send_message(channel, 'Todays quote is: ' + str(pq))
-            bot.send_message('ChanServ', 'topic ' + channel + ' ' +  topic  + ' | Quote of the day: ' + pq)
-            print('Announed it')
+            bot.send_line('TOPIC ' + channel + ' ' + pq)
+            print('Announced it')
     if buttbot == 1:
         message1 = message.lower()
         message1 = message.split(' ')
